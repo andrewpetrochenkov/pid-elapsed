@@ -23,13 +23,13 @@ command|`usage`
 
 #### Examples
 ```bash
-$ pid-elapsed <pid>     # -s, --seconds
+$ pid-elapsed <pid>             # --seconds
 3601
-$ pid-elapsed -m <pid>  # -m, --minutes
+$ pid-elapsed --minutes <pid>   # --minutes
 60
-$ pid-elapsed -h <pid>  # -h, --hours
+$ pid-elapsed --hours <pid>     # --hours
 1
-$ pid-elapsed -d <pid>  # -d, --days
+$ pid-elapsed --days <pid>      # --days
 0
 ```
 
