@@ -1,0 +1,14 @@
+{
+  "name": "pid-elapsed",
+  "version": "2019.4.13",
+  "description": "process elapsed time",
+  "keywords": [
+    "pid",
+    "elapsed"
+  ],
+  "homepage": "https://github.com/looking-for-a-job/pid-elapsed",
+  "license": "Unlicense",
+  "bin": {
+    "pid-elapsed": "./scripts/pid-elapsed"
+  }
+}

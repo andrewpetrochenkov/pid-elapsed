@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+{ set +x; } 2>/dev/null
+
+usage() {
+    echo "usage: $(basename $0) [format] pid" 1>&2
+    [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+}
+
+[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+
+[[ $# == 0 ]] || [[ $# -gt 2 ]] && usage
+
+[[ $# == 1 ]] && set -- --seconds "$1"
+out="$(ps -p ${!#} -o etime)" || exit
+out="$(echo "$out" | tail +2 | awk '{print $1}')" || exit
+# [[dd-]hh:]mm:ss
+seconds="$(echo $out | tr '-' ':' | awk -F: '{ total=0; m=1; } { for (i=0; i < NF; i++) {total += $(NF-i)*m; m *= i >= 2 ? 24 : 60 }} {print total}')"
+
+[[ $1 == "--seconds" ]] && { echo $seconds; exit; }
+[[ $1 == "--minutes" ]] && { echo $((seconds/60)); exit; }
+[[ $1 == "--hours" ]] && { echo $((seconds/3600)); exit; }
+[[ $1 == "--days" ]] && {
+    [[ "$out" == *-* ]] && { echo "$out" | awk -F'-' '{print $1}'; exit; }
+    echo 0; exit
+}
+echo "ERROR: unknown format $2" 1>&2 && exit 1
