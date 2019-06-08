@@ -11,7 +11,9 @@ usage() {
 [[ $# == 0 ]] || [[ $# -gt 2 ]] && usage
 
 [[ $# == 1 ]] && set -- --seconds "$1"
-out="$(ps -p ${!#} -o etime)" || exit
+out="$(ps -p ${!#} -o etime)"
+[[ -z "$out" ]] && exit
+
 out="$(echo "$out" | tail +2 | awk '{print $1}')" || exit
 # [[dd-]hh:]mm:ss
 seconds="$(echo $out | tr '-' ':' | awk -F: '{ total=0; m=1; } { for (i=0; i < NF; i++) {total += $(NF-i)*m; m *= i >= 2 ? 24 : 60 }} {print total}')"
